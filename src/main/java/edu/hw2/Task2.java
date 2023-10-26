@@ -7,7 +7,7 @@ public class Task2 {
         System.out.println(rectangle.area());
 
         Square square = new Square();
-        square.setWidth(20).setHeight(20);
+        square.setSide(20);
         System.out.println(square.area());
     }
 }
@@ -49,21 +49,27 @@ class Rectangle {
     }
 }
 
-final class Square extends Rectangle {
+class Square {
+    private int side;
+
     public Square() {
+        this.side = 0;
     }
 
-    @Override
-    public Square setWidth(int width) {
-        super.setWidth(width);
-        super.setHeight(width);
-        return this;
+    public Square(int side) {
+        this.side = side;
     }
 
-    @Override
-    public Square setHeight(int height) {
-        super.setHeight(height);
-        super.setWidth(height);
+    public int getSide() {
+        return side;
+    }
+
+    public double area() {
+        return side * side;
+    }
+
+    public Square setSide(int side) {
+        this.side = side;
         return this;
     }
 }

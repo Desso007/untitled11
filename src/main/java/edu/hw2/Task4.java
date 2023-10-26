@@ -4,8 +4,8 @@ public class Task4 {
 
     public static CallingInfo callingInfo() {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        if (stackTraceElements.length >= 3) {
-            StackTraceElement caller = stackTraceElements[2];
+        if (stackTraceElements.length >= 2) {
+            StackTraceElement caller = stackTraceElements[1];
             String className = caller.getClassName();
             String methodName = caller.getMethodName();
             return new CallingInfo(className, methodName);
@@ -18,7 +18,7 @@ public class Task4 {
         if (info != null) {
             System.out.println("Called from class: " + info.className + ", method: " + info.methodName);
         } else {
-            System.out.println("Could not determine the calling class and method.");
+            System.println("Could not determine the calling class and method.");
         }
     }
 

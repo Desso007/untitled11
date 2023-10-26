@@ -12,11 +12,11 @@ interface ConnectionManager {
 
 class ConnectionException extends RuntimeException {
     public ConnectionException(String s, ConnectionException lastException) {
-
+        super(s, lastException);
     }
 
     public ConnectionException(String s) {
-
+        super(s);
     }
 }
 
@@ -58,11 +58,10 @@ final class PopularCommandExecutor {
 
     public void tryExecute(String command) {
         int attempts = 0;
-        Connection connection = manager.getConnection();
         ConnectionException lastException = null;
 
         while (attempts < maxAttempts) {
-            try {
+            try (Connection connection = manager.getConnection()) {
                 connection.execute(command);
                 return;
             } catch (ConnectionException e) {
@@ -81,10 +80,12 @@ final class PopularCommandExecutor {
 
 class StableConnection implements Connection {
     @Override
-    public void execute(String command) {}
+    public void execute(String command) {
+    }
 
     @Override
-    public void close() {}
+    public void close() {
+    }
 }
 
 class FaultyConnection implements Connection {
@@ -96,16 +97,17 @@ class FaultyConnection implements Connection {
     }
 
     @Override
-    public void close() {}
+    public void close() {
+    }
 }
 
 public class Task3 {
     public static void main(String[] args) {
-        ConnectionManager manager = new DefaultConnectionManager(0.1); // Настроим вероятность сбоя
-        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 3); // Настроим максимальное количество попыток
+        ConnectionManager manager = new DefaultConnectionManager(0.1);
+        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 3);
 
         try {
-            executor.updatePackages(); // Выполняем команду обновления пакетов
+            executor.updatePackages();
             System.out.println("Команда выполнена успешно.");
         } catch (ConnectionException e) {
             System.err.println("Не удалось выполнить команду: " + e.getMessage());

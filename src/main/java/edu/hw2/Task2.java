@@ -4,11 +4,11 @@ public class Task2 {
     public static void main(String[] args) {
         Rectangle rectangle = new Rectangle();
         rectangle.setWidth(20).setHeight(10);
-        System.out.println(rectangle.area());
+        System.out.println("Rectangle Area: " + rectangle.area());
 
         Square square = new Square();
-        square.setWidth(20).setHeight(20);
-        System.out.println(square.area());
+        square.setSide(20);
+        System.out.println("Square Area: " + square.area());
     }
 }
 
@@ -53,17 +53,19 @@ final class Square extends Rectangle {
     public Square() {
     }
 
+    public Square setSide(int side) {
+        super.setWidth(side);
+        super.setHeight(side);
+        return this;
+    }
+
     @Override
     public Square setWidth(int width) {
-        super.setWidth(width);
-        super.setHeight(width);
         return this;
     }
 
     @Override
     public Square setHeight(int height) {
-        super.setHeight(height);
-        super.setWidth(height);
         return this;
     }
 }
